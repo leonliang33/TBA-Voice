@@ -4,18 +4,15 @@
  * @private
  */
 var http = require('http');
-
 var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser');
-
 var validator = require('express-validator');
 var errorHandler = require('errorhandler');
 var logger = require('morgan');
 
 var mongoose = require('mongoose');
-
 var config = require('./config');
 
 var mainRoutes = require('./routes/index');
