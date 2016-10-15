@@ -14,7 +14,9 @@ function ($scope, $stateParams,$state) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $state) {
-
+     $scope.createAudioMessage = function(){
+          $state.go('createAudioMessage');
+     }
 
 }])
 
