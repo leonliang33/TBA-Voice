@@ -1,0 +1,29 @@
+{
+  "name": "tba-voice",
+  "version": "1.0.0",
+  "description": "backend to voice app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonliang33/TBA-Voice.git"
+  },
+  "keywords": [
+    "Audio",
+    "Messages",
+    "Location",
+    "Based"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonliang33/TBA-Voice/issues"
+  },
+  "homepage": "https://github.com/leonliang33/TBA-Voice#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "favicon": "0.0.2"
+  }
+}
