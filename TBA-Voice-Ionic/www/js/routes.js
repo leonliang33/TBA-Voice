@@ -7,8 +7,8 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-  
+
+
 
       .state('getStarted', {
     url: '/start',
@@ -17,7 +17,7 @@ angular.module('app.routes', [])
   })
 
   .state('page2', {
-    url: '/main',
+    url: '/page2',
     templateUrl: 'templates/page2.html',
     controller: 'page2Ctrl'
   })
@@ -58,8 +58,14 @@ angular.module('app.routes', [])
     controller: 'openCtrl'
   })
 
+  .state('confirmation', {
+    url: '/confirmation',
+    templateUrl: 'templates/confirmation.html',
+    controller: 'confirmationCtrl'
+  })
+
 $urlRouterProvider.otherwise('/start')
 
-  
+
 
 });
