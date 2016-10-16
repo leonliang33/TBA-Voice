@@ -89,10 +89,10 @@ angular.module('app.controllers', [])
 
         }])
 
-    .controller('createAudioMessageCtrl', ['$scope', '$stateParams', '$state', '$cordovaMedia', '$cordovaFile', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+    .controller('createAudioMessageCtrl', ['$scope', '$stateParams', '$state', '$cordovaMedia', '$cordovaFile','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-        function ($scope, $stateParams, $state, $cordovaMedia, $cordovaFile) {
+        function ($scope, $stateParams, $state, $cordovaMedia, $cordovaFile,$http) {
 
             var fileName = 'test.mp3';
             var startTime, endTime;
