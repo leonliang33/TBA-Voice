@@ -10,47 +10,48 @@ angular.module('app.controllers', [])
 
         }])
 
-    .controller('page2Ctrl', ['$scope', '$stateParams', '$state', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+    .controller('page2Ctrl', ['$scope', '$stateParams', '$state', '$http', '$cordovaFile',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $state, $http) {
-      $scope.createAudioMessage = function () {
-        $state.go('createAudioMessage');
-      };
-      $scope.open = function () {
-           console.log($state.get('login').params.username);
-           $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
-             .then(res => $http.post('http://dmartelly.com:3000/message',{
-               long: res.data.location.lng,
-               lat: res.data.location.lat,
-               userid: $state.get('login').params.username
-           }));
-     //    $state.go('open');
-      }
-    }])
+        function ($scope, $stateParams, $state, $http, $cordovaFile) {
+            $scope.createAudioMessage = function () {
+                $state.go('createAudioMessage');
+            };
+            $scope.open = function () {
+                 console.log($state.get('login').params.username);
+                $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
+                    .then(function (res) {
+                        $cordovaFile.readAsBinaryString(cordova.file.externalCacheDirectory, 'test.mp3')
+                            .then(function (success) {
+                                console.log(success);
+                                $http.get('http://dmartelly.com:3000/message',res => console.log(res));
+                            }, function (error) {
+                                console.log('nope');
+                            });
+                    });
+            }
+        }])
 
-  .controller('loginCtrl', ['$scope', '$stateParams', '$state', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+    .controller('loginCtrl', ['$scope', '$stateParams', '$state', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $state, $http) {
-      $scope.signup = function () {
-        $state.go('signup');
-      }
-      $scope.page2 = function () {
-        var email = this.formdata.log_email;
-        var password = this.formdata.password;
-        console.log(email + " " + password);
-        $state.current.params.username=email;
-        console.log($state.current.params.username)
-        $http.post('http://dmartelly.com:3000/login', {
-          email: this.formdata.log_email,
-          password: this.formdata.password
-     }).then(res => res.data.success ? $state.go('page2',email) : console.log(res.data.success))
-     //    $state.go('page2',{username:email});
-      }
-    }
-  ])
+        function ($scope, $stateParams, $state, $http) {
+            $scope.signup = function () {
+                $state.go('signup');
+            };
+            $scope.page2 = function () {
+                var email = this.formdata.log_email;
+                var password = this.formdata.password;
+                console.log(email + " " + password);
+                $state.current.params.username = email;
+                $http.post('http://dmartelly.com:3000/login', {
+                    email: this.formdata.log_email,
+                    password: this.formdata.password
+               }).then(res => res.data.success ? $state.go('page2') : console.log(res));
 
+            }
+        }
+    ])
 
     .controller('signupCtrl', ['$scope', '$stateParams', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
@@ -88,10 +89,10 @@ angular.module('app.controllers', [])
 
         }])
 
-    .controller('createAudioMessageCtrl', ['$scope', '$stateParams', '$state', '$cordovaMedia', '$cordovaFile', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+    .controller('createAudioMessageCtrl', ['$scope', '$stateParams', '$state', '$cordovaMedia', '$cordovaFile','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-        function ($scope, $stateParams, $state, $cordovaMedia, $cordovaFile) {
+        function ($scope, $stateParams, $state, $cordovaMedia, $cordovaFile,$http) {
 
             var fileName = 'test.mp3';
             var startTime, endTime;
@@ -125,10 +126,26 @@ angular.module('app.controllers', [])
                     }, 1000);
                     media.stopRecord();
                 } else if (endTime - startTime > 10000) {
-                    console.log('Too damn long')
+                    console.log('Too damn long');
                 } else {
                     console.log("record stopping ...");
                     media.stopRecord();
+                    console.log($state.get('login').params.username);
+                   $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
+                       .then(function (res) {
+                           $cordovaFile.readAsBinaryString(cordova.file.externalCacheDirectory, 'test.mp3')
+                              .then(function (success) {
+                                   console.log(success);
+                                   $http.post('http://dmartelly.com:3000/message', {
+                                      long: res.data.location.lng,
+                                      lat: res.data.location.lat,
+                                      email: $state.get('login').params.username,
+                                      audio: success
+                                   });
+                              }, function (error) {
+                                   console.log('nope');
+                              });
+                       });
                 }
             };
 
@@ -146,7 +163,6 @@ angular.module('app.controllers', [])
                 console.log("stopping file");
                 media.stop();
             };
-
         }])
 
     .controller('openCtrl', ['$scope', '$stateParams', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller

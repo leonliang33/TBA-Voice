@@ -75,7 +75,7 @@ router.route('/')
             },
             lat: req.body.lat,
             long: req.body.long,
-            author: req.body.userid
+            email: req.body.userid
         });
         Message.createMessage(newMessage, function (err, result) {
             if (err) {
