@@ -4,18 +4,18 @@ var bcrypt = require('bcrypt-nodejs');
 var Schema = new mongoose.Schema({
     email: {
         type: String,
-        required: true,
-        unique: true,
+        required: [true, 'Need an email'],
+        unique: [true, 'Email already exists'],
         lowercase: true,
         trim: true
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'Need a password']
     },
     firstname: {
         type: String,
-        required: true
+        required: [true, 'I need a name, any name']
     },
     createdMessages: {
         type: [mongoose.Schema.Types.ObjectId],
