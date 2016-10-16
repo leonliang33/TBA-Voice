@@ -20,8 +20,8 @@ var Schema = new mongoose.Schema({
         required: [true, 'Need a Long']
     },
     author: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'user'
+        type: String,
+        required: [true, 'Need the author\'s email']
     },
     playCount: {
         type: Number,
