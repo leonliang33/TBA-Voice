@@ -2,6 +2,8 @@ var router = require('express').Router();
 
 var Message = require('../models/message');
 
+var btoa = require('btoa');
+
 var getErrorMessage = function (err) {
     var message = [];
 
@@ -57,7 +59,7 @@ router.route('/n')
                 }
                 send.success = true;
                 res.set("Content-Type", 'mp3');
-                res.send(data).end();
+                res.send(btoa(data)).end();
             }
         })
     });
