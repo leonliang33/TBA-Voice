@@ -49,9 +49,9 @@ angular.module('app.controllers', [])
                 console.log(email + " " + password);
                 $http.post('http://dmartelly.com:3000/login', {
                     email: this.formdata.log_email,
-                    password: this.formdata.log_pass
-                });
-                $state.go('page2');
+                    password: this.formdata.password
+               }).then(res => res.data.success ? $state.go('page2') : console.log(res));
+
             }
         }
     ])
