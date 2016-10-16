@@ -16,10 +16,13 @@ angular.module('app.controllers', [])
     function ($scope, $stateParams, $state, $http) {
       $scope.createAudioMessage = function () {
         $state.go('createAudioMessage');
-      }
+      };
       $scope.open = function () {
-           $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4').
-               then(res=>console.log(res));
+           $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
+             .then(res => $http.post('http://localhost:3000/message',{
+               long: res.data.location.lng,
+               lat: res.data.location.lat
+           }));
      //    $state.go('open');
       }
     }])
@@ -86,18 +89,19 @@ angular.module('app.controllers', [])
     function ($scope, $stateParams, $state, $cordovaMedia, $cordovaFile) {
 
       var fileName = 'test.mp3';
-
+      var startTime, endTime;
 
       var media = $cordovaMedia.newMedia(cordova.file.externalCacheDirectory + fileName);
       $scope.record = function () {
+        startTime = new Date().getTime();
         $cordovaFile.checkFile(cordova.file.externalCacheDirectory, fileName)
           .then(function (success) {
-            console.log('SSS' + success);
+            console.log('Removing File ' + fileName);
             $cordovaFile.removeFile(cordova.file.externalCacheDirectory, fileName)
               .then(function (success) {
-                console.log('SSS');
+                console.log(fileName + ' has been removed');
                 media = $cordovaMedia.newMedia(cordova.file.externalCacheDirectory + fileName);
-                console.log("Removed file. Record starting ...");
+                console.log("Record starting ...");
                 media.startRecord();
               }, function (error) {
                 console.log('opps');
@@ -109,18 +113,34 @@ angular.module('app.controllers', [])
           });
       };
       $scope.stop_record = function () {
-        console.log("record stopping ...");
-        media.stopRecord();
-
+        endTime = new Date().getTime();
+        if (endTime - startTime < 1000) {
+          setTimeout(function () {
+            console.log('Too damn fast');
+          }, 1000);
+          media.stopRecord();
+        } else if (endTime - startTime > 10000) {
+          console.log('Too damn long')
+        } else {
+          console.log("record stopping ...");
+          media.stopRecord();
+        }
       };
 
       $scope.play = function () {
-        console.log("playing");
-        media.play();
+        $cordovaFile.checkFile(cordova.file.externalCacheDirectory, fileName)
+          .then(function (success) {
+            console.log("playing file");
+            media.play();
+          }, function (error) {
+            console.log('File doesn\'t exist yet');
+          })
       };
 
-
-
+      $scope.stop = function () {
+        console.log("stopping file");
+        media.stop();
+      };
     }])
 
   .controller('openCtrl', ['$scope', '$stateParams', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller

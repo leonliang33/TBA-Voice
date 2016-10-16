@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
 var Schema = new mongoose.Schema({
-    data: {
+    audio: {
         data: Buffer,
         contentType: String,
         required: [true, 'Need Audio to Save']
