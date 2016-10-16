@@ -1,6 +1,6 @@
 var router = require('express').Router();
 
-//var User = require('../models/user');
+var User = require('../models/user');
 
 /**
  * Test the api call
@@ -12,32 +12,41 @@ router.get('/', function (req, res) {
 /**
  * Authenticates the user
  */
-/*
 router.post('/login', function (req, res) {
-    User.findUserByUsername(req.body.username, function (err, user) {
+    var send = {
+        success: false,
+        message: ''
+    };
+    User.findUserByEmail(req.body.email.toLowerCase(), function (err, user) {
         //If err
         if (err) {
-            res.send(err);
+            console.log('findUserByEmail Error: ' + err);
+            send.message = err;
+            res.json(send);
         }
         //If no user was found
-        if (!user) {
-            res.send('Username was not found');
+        else if (!user) {
+            send.message = 'Username was not found';
+            res.json(send);
+        } else {
+            User.comparePassword(req.body.password, user.password, function (err, isValid) {
+                //If err
+                if (err) {
+                    console.log('comparePassword Error: ' + err);
+                    send.message = err;
+                    res.json(send);
+                }
+                //If password did not match
+                else if (!isValid) {
+                    send.message = 'Password is incorrect';
+                    res.json(send);
+                } else {
+                    send.success = true;
+                    res.json(send);
+                }
+            });
         }
-        User.comparePassword(req.body.password, user.password, function (err, isValid) {
-            if (err) {
-                console.log('comparePassword Error: ' + err);
-                res.send(err1);
-            }
-            else if (!isValid) {
-                console.log('Password is incorrect');
-                res.send('Password is incorrect');
-            } else {
-                res.json({isValid: true})
-            }
-            //If all checks pass, authorize user
-
-        });
     });
 });
-*/
+
 module.exports = router;
