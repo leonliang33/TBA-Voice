@@ -28,6 +28,43 @@ var getErrorMessage = function (err) {
 /**
  * Gets all messages from the database and send the closest one
  */
+router.route('/n')
+    .post(function (req, res) {
+        var myLat = req.body.lat;
+        var myLong = req.body.long;
+        console.log(myLat + ' ' + myLong);
+        var send = {
+            success: false,
+            message: ''
+        };
+        Message.findAllMessages(function (err, listOfMessages) {
+            if (err) {
+                res.json(send)
+            } else if (!listOfMessages) {
+                send.message = 'No Message was found';
+                res.json(send);
+            } else {
+                var min = Number.MAX_SAFE_INTEGER;
+                var currDistance;
+                var data;
+                for (const i in listOfMessages) {
+                    currDistance = Math.sqrt(Math.pow(listOfMessages[i].lat - myLat, 2) +
+                        Math.pow(listOfMessages[i].long - myLong, 2));
+                    if (currDistance < min) {
+                        min = currDistance;
+                        data = listOfMessages[i].audio.data;
+                    }
+                }
+                send.success = true;
+                res.set("Content-Type", 'mp3');
+                res.send(data).end();
+            }
+        })
+    });
+
+/**
+ * Gets all messages from the database and send the closest one
+ */
 router.route('/')
     .get(function (req, res) {
         var myLat = req.params.lat;
@@ -75,11 +112,11 @@ router.route('/')
             },
             lat: req.body.lat,
             long: req.body.long,
-            email: req.body.email
+            author: req.body.email
         });
         Message.createMessage(newMessage, function (err, result) {
             if (err) {
-                console.log('Message error');
+                console.log('Message error' + err);
                 send.message = getErrorMessage(err)[0].msg;
                 res.json(send);
             } else {
