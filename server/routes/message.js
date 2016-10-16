@@ -58,9 +58,9 @@ router.route('/n')
                     }
                 }
                 send.success = true;
-                console.log(base64.encode(data));
+                console.log(data);
                 res.set("Content-Type", 'mp3');
-                res.send(base64.encode(data));
+                res.send(data);
             }
         })
     });
