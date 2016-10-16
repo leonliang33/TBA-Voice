@@ -30,9 +30,9 @@ var getErrorMessage = function (err) {
  */
 router.route('/')
     .get(function (req, res) {
-        console.log(req.body);
-        var myLat = req.body.lat;
-        var myLong = req.body.long;
+        var myLat = req.params.lat;
+        var myLong = req.params.long;
+        console.log(myLat + ' ' + myLong);
         var send = {
             success: false,
             message: ''
