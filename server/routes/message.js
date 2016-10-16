@@ -1,6 +1,6 @@
 var router = require('express').Router();
 
-var Message = require('../models/user');
+var Message = require('../models/message');
 
 var getErrorMessage = function (err) {
     var message = [];
