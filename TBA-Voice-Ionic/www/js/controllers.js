@@ -22,17 +22,23 @@ function ($scope, $stateParams, $state) {
      }
 }])
 
-.controller('loginCtrl', ['$scope', '$stateParams', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('loginCtrl', ['$scope', '$stateParams', '$state','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $state) {
+function ($scope, $stateParams, $state,$http) {
       $scope.signup = function(){
           $state.go('signup');
       }
       $scope.page2 = function(){
+           var email = this.formdata.log_email;
+           var password = this.formdata.password;
+           console.log(email + " " + password);
+           $http.post('http://localhost:3000/login', {
+             email: this.formdata.log_email,
+             password: this.formdata.log_pass
+         })
           $state.go('page2');
       }
-
 }
 ])
 
