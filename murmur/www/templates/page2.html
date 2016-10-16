@@ -1,0 +1,50 @@
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
+<ion-view title="" id="page2" style="background-color:#558AC6;" hide-nav-bar="false">
+    <ion-nav-buttons side="left" class="has-header">
+        <button class="button button-icon icon ion-android-menu"></button>
+    </ion-nav-buttons>
+    <ion-content padding="true" class="has-header">
+        <div id="page2-button-bar1" class="button-bar">
+            <button id="page2-button8" style="color:#96897B;border-radius:1000px 1000px 1000px 1000px;" class="button button-energized  button-block" ng-click="createAudioMessage()">Create</button>
+        </div>
+        <button id="page2-button11" style="color:#96897B;border-radius:1000px 1000px 1000px 1000px;" class="button button-energized  button-block" ng-click="open()">Open</button>
+        <iframe width="300" height="400" src='https://api.mapbox.com/styles/v1/mapbox/light-v9.html?fresh=true&title=true&output=embed&access_token=pk.eyJ1IjoibGVvbmxpYW5nMzMiLCJhIjoiY2l1YnBiaGlmMDA0YTJwcWY4Z3hzYW9lNiJ9.JPoVim823VMUz2bFMejwbA#0.93/-0/0' />
+        <div id='map'></div>
+        <div id='menu'>
+            <input id='basic' type='radio' name='rtoggle' value='basic' checked='checked'>
+            <label for='basic'>basic</label>
+            <input id='streets' type='radio' name='rtoggle' value='streets'>
+            <label for='streets'>streets</label>
+            <input id='bright' type='radio' name='rtoggle' value='bright'>
+            <label for='bright'>bright</label>
+            <input id='light' type='radio' name='rtoggle' value='light'>
+            <label for='light'>light</label>
+            <input id='dark' type='radio' name='rtoggle' value='dark'>
+            <label for='dark'>dark</label>
+            <input id='satellite' type='radio' name='rtoggle' value='satellite'>
+            <label for='satellite'>satellite</label>
+        </div>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoibGVvbmxpYW5nMzMiLCJhIjoiY2l1YnBiaGlmMDA0YTJwcWY4Z3hzYW9lNiJ9.JPoVim823VMUz2bFMejwbA';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/basic-v9',
+                zoom: 13,
+                center: [4.899, 52.372]
+            });
+
+            var layerList = document.getElementById('menu');
+            var inputs = layerList.getElementsByTagName('input');
+
+            function switchLayer(layer) {
+                var layerId = layer.target.id;
+                map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+            }
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].onclick = switchLayer;
+            }
+        </script>
+    </ion-content>
+</ion-view>
