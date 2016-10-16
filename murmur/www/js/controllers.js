@@ -32,10 +32,12 @@ angular.module('app.controllers', [])
                                      lat:lat
                                 }).then(function(res){
                                      console.log(res);
-                                   //   var snd = new Audio("data:audio/mp3;base64," + res.data);
-                                   //   snd.play();
+                                     var snd = new Audio("data:audio/mp3;base64," + res.data);
+                                     snd.load();
+                                     snd.play();
                                      document.getElementById('audio').innerHTML =
-                                     "<audio controls src='data:audio/mp3;base64,"+res.data+"' />"
+                                     "<audio controls='controls' autobuffer='autobuffer' autoplay='autoplay'> <source src='data:audio/mp3;base64,'"+res.data+"'/> </audio>"
+                                     console.log("<audio controls='controls' autobuffer='autobuffer' autoplay='autoplay'> <source src='data:audio/mp3;base64,'"+res.data+"'/> </audio>");
                                 });
                     });
             }
