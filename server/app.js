@@ -17,6 +17,7 @@ var config = require('./config');
 
 var mainRoutes = require('./routes/index');
 var userRoutes = require('./routes/user');
+var messageRoutes = require('./routes/message');
 
 /**
  * Start the database
@@ -83,6 +84,7 @@ if ('development' == app.get('env')) {
  */
 app.use('/', mainRoutes);
 app.use('/user', userRoutes);
+app.use('/message', messageRoutes);
 //app.use('/img', imgRoutes);
 
 /**
