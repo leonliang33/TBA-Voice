@@ -22,19 +22,20 @@ angular.module('app.controllers', [])
                 $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
                     .then(function (res) {
                          var long = res.data.location.lng;
-                       var lat = res.data.location.lat;
+                         var lat = res.data.location.lat;
                          document.getElementById('map').innerHTML =
                          "<iframe width='300' height='400' src='https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDp-CLdtzjT40ZtInBzhfg2Lrp3wgn0DsI&location="+lat+","+long+"' />"
                     //     $cordovaFile.readAsBinaryString(cordova.file.externalCacheDirectory, 'test.mp3')
+                              console.log("'https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDp-CLdtzjT40ZtInBzhfg2Lrp3wgn0DsI&location="+lat+","+long+"'");
                                 $http.post('http://dmartelly.com:3000/message/n',{
                                      long:long,
                                      lat:lat
                                 }).then(function(res){
                                      console.log(res);
-                                     var snd = new Audio("data:audio/mp3;base64," + res.data);
-                                     snd.play();
-                                     document.getElementById('map').innerHTML =
-                                     "<audio controls src='data:audio/ogg;base64,"+res.data+"' />"
+                                   //   var snd = new Audio("data:audio/mp3;base64," + res.data);
+                                   //   snd.play();
+                                     document.getElementById('audio').innerHTML =
+                                     "<audio controls src='data:audio/mp3;base64,"+res.data+"' />"
                                 });
                     });
             }
