@@ -65,9 +65,11 @@ router.route('/')
         });
         Message.createMessage(newMessage, function (err, result) {
             if (err) {
+                console.log('Message error');
                 send.message = getErrorMessage(err)[0].msg;
                 res.json(send);
             } else {
+                console.log('Message has been created');
                 send.success = true;
                 send.message = 'Message has been created';
                 send.other = result;
@@ -88,7 +90,7 @@ router.route('/:id')
                 send.message = getErrorMessage(err);
                 res.json(send);
             } else if (!user) {
-                send.message = 'User was not found';
+                send.message = 'Message was not found';
                 res.json(send);
             } else {
                 send.success = true;
