@@ -22,7 +22,7 @@ function ($scope, $stateParams, $state) {
      }
 }])
 
-.controller('loginCtrl', ['$scope', '$stateParams', '$state','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+     .controller('loginCtrl', ['$scope', '$stateParams', '$state','$http','$cordovaMedia', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $state,$http) {
@@ -35,9 +35,9 @@ function ($scope, $stateParams, $state,$http) {
            console.log(email + " " + password);
            $http.post('http://localhost:3000/login', {
              email: this.formdata.log_email,
-             password: this.formdata.log_pass
-        }).then(res => console.log(res))
-          $state.go('page2');
+             password: this.formdata.password
+        }).then(res => res.data.success ? true : $state.go('page2'))
+          //$state.go('page2');
       }
 }
 ])
@@ -78,11 +78,16 @@ function ($scope, $stateParams, $state) {
 
 }])
 
-.controller('createAudioMessageCtrl', ['$scope', '$stateParams','$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('createAudioMessageCtrl', ['$scope', '$stateParams','$state','$cordovaMedia', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $state) {
-
+function ($scope, $stateParams, $state, $cordovaMedia) {
+     $scope.record = function(){
+          $cordovaMedia.startRecord();
+     }
+     $scope.stop_record = function(){
+          $cordovaMedia.stopRecord();
+     }
 
 }])
 
