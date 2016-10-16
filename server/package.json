@@ -30,6 +30,7 @@
     "express": "^4.14.0",
     "express-validator": "^2.20.10",
     "method-override": "^2.3.6",
-    "mongoose": "^4.6.3"
+    "mongoose": "^4.6.3",
+    "morgan": "latest"
   }
 }
