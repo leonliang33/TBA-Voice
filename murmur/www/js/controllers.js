@@ -18,17 +18,13 @@ angular.module('app.controllers', [])
                 $state.go('createAudioMessage');
             };
             $scope.open = function () {
+                 console.log($state.get('login').params.username);
                 $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
                     .then(function (res) {
                         $cordovaFile.readAsBinaryString(cordova.file.externalCacheDirectory, 'test.mp3')
                             .then(function (success) {
                                 console.log(success);
-                                $http.post('http://dmartelly.com:3000/message', {
-                                    long: res.data.location.lng,
-                                    lat: res.data.location.lat,
-                                    email: $state.get('login').params.username,
-                                    audio: success
-                                });
+                                $http.get('http://dmartelly.com:3000/message',res => console.log(res));
                             }, function (error) {
                                 console.log('nope');
                             });
@@ -47,6 +43,7 @@ angular.module('app.controllers', [])
                 var email = this.formdata.log_email;
                 var password = this.formdata.password;
                 console.log(email + " " + password);
+                $state.current.params.username = email;
                 $http.post('http://dmartelly.com:3000/login', {
                     email: this.formdata.log_email,
                     password: this.formdata.password
@@ -129,10 +126,26 @@ angular.module('app.controllers', [])
                     }, 1000);
                     media.stopRecord();
                 } else if (endTime - startTime > 10000) {
-                    console.log('Too damn long')
+                    console.log('Too damn long');
                 } else {
                     console.log("record stopping ...");
                     media.stopRecord();
+                    console.log($state.get('login').params.username);
+                   $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
+                       .then(function (res) {
+                           $cordovaFile.readAsBinaryString(cordova.file.externalCacheDirectory, 'test.mp3')
+                              .then(function (success) {
+                                   console.log(success);
+                                   $http.post('http://dmartelly.com:3000/message', {
+                                      long: res.data.location.lng,
+                                      lat: res.data.location.lat,
+                                      email: $state.get('login').params.username,
+                                      audio: success
+                                   });
+                              }, function (error) {
+                                   console.log('nope');
+                              });
+                       });
                 }
             };
 
