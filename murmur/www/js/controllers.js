@@ -10,15 +10,17 @@ angular.module('app.controllers', [])
 
     }])
 
-  .controller('page2Ctrl', ['$scope', '$stateParams', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('page2Ctrl', ['$scope', '$stateParams', '$state','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $state) {
+    function ($scope, $stateParams, $state, $http) {
       $scope.createAudioMessage = function () {
         $state.go('createAudioMessage');
       }
       $scope.open = function () {
-        $state.go('open');
+           $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4').
+               then(res=>console.log(res));
+     //    $state.go('open');
       }
     }])
 
