@@ -40,8 +40,8 @@ module.exports.createMessage = function (newMessage, callback) {
     newMessage.save(callback);
 };
 
-module.exports.findMessageByID = function (id, callback) {
-    Message.findById(id).exec(callback);
+module.exports.findMessageDistance = function (lat, long, callback) {
+    Message.find({lat: {$gt:lat+.5}}).exec(callback);
 };
 
 module.exports.findAllMessages = function (callback) {

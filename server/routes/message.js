@@ -26,25 +26,38 @@ var getErrorMessage = function (err) {
 };
 
 /**
- * Gets all messages from the database
+ * Gets all messages from the database and send the closest one
  */
 router.route('/')
     .get(function (req, res) {
+        console.log(req.body);
+        var myLat = req.body.lat;
+        var myLong = req.body.long;
         var send = {
             success: false,
             message: ''
         };
         Message.findAllMessages(function (err, listOfMessages) {
             if (err) {
-                send.message = getErrorMessage(err);
-                res.json(send);
+                res.json(send)
             } else if (!listOfMessages) {
                 send.message = 'No Message was found';
                 res.json(send);
             } else {
+                var min = Number.MAX_SAFE_INTEGER;
+                var currDistance;
+                var data;
+                for (const i in listOfMessages) {
+                    currDistance = Math.sqrt(Math.pow(listOfMessages[i].lat - myLat, 2) +
+                        Math.pow(listOfMessages[i].long - myLong, 2));
+                    if (currDistance < min) {
+                        min = currDistance;
+                        data = listOfMessages[i].audio.data;
+                    }
+                }
                 send.success = true;
-                send.message = listOfMessages;
-                res.json(send);
+                res.set("Content-Type", 'mp3');
+                res.send(data).end();
             }
         })
     })
