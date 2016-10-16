@@ -21,8 +21,10 @@ angular.module('app.controllers', [])
                  console.log($state.get('login').params.username);
                 $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
                     .then(function (res) {
+                         var long = res.data.location.lng;
+                       var lat = res.data.location.lat;
                          document.getElementById('map').innerHTML =
-                         "<iframe width='300' height='400' src='https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDp-CLdtzjT40ZtInBzhfg2Lrp3wgn0DsI&location=46.414382,10.013988' />"
+                         "<iframe width='300' height='400' src='https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDp-CLdtzjT40ZtInBzhfg2Lrp3wgn0DsI&location="+lat+","+long+"' />"
                         $cordovaFile.readAsBinaryString(cordova.file.externalCacheDirectory, 'test.mp3')
                             .then(function (success) {
                                 console.log(success);
