@@ -36,7 +36,7 @@ function ($scope, $stateParams, $state,$http) {
            $http.post('http://localhost:3000/login', {
              email: this.formdata.log_email,
              password: this.formdata.log_pass
-         })
+        }).then(res => console.log(res))
           $state.go('page2');
       }
 }
