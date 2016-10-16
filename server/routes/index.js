@@ -13,6 +13,7 @@ router.get('/', function (req, res) {
  * Authenticates the user
  */
 router.post('/login', function (req, res) {
+    console.log(req.body);
     var send = {
         success: false,
         message: ''
@@ -29,7 +30,7 @@ router.post('/login', function (req, res) {
             send.message = 'Username was not found';
             res.json(send);
         } else {
-            User.comparePassword(req.body.password, user.password, function (err, isValid) {
+            User.comparePassword(req.body.password || '', user.password, function (err, isValid) {
                 //If err
                 if (err) {
                     console.log('comparePassword Error: ' + err);
@@ -41,6 +42,7 @@ router.post('/login', function (req, res) {
                     send.message = 'Password is incorrect';
                     res.json(send);
                 } else {
+                    console.log('User ' + user.email + ' is logged in');
                     send.success = true;
                     res.json(send);
                 }

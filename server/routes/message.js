@@ -50,13 +50,14 @@ router.route('/')
     })
     // Create a message
     .post(function (req, res) {
+        console.log(req.body);
         var send = {
             success: false,
             message: ''
         };
         var newMessage = new Message({
             audio: {
-                data: req.files.data,
+                data: req.body.audio,
                 contentType: 'mp3'
             },
             lat: req.body.lat,
