@@ -19,13 +19,19 @@ angular.module('app.routes', [])
   .state('page2', {
     url: '/page2',
     templateUrl: 'templates/page2.html',
-    controller: 'page2Ctrl'
+    controller: 'page2Ctrl',
+    params: {
+         username: null
+     }
   })
 
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'loginCtrl'
+    controller: 'loginCtrl',
+    params: {
+         username: null
+     }
   })
 
   .state('signup', {

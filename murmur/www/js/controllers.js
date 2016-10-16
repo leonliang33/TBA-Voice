@@ -18,10 +18,12 @@ angular.module('app.controllers', [])
         $state.go('createAudioMessage');
       };
       $scope.open = function () {
+           console.log($state.get('login').params.username);
            $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBZdcOGYsmaOhA4YhvhLqbraui0FH_1rD4')
-             .then(res => $http.post('http://localhost:3000/message',{
+             .then(res => $http.post('http://dmartelly.com:3000/message',{
                long: res.data.location.lng,
-               lat: res.data.location.lat
+               lat: res.data.location.lat,
+               userid: $state.get('login').params.username
            }));
      //    $state.go('open');
       }
@@ -38,11 +40,13 @@ angular.module('app.controllers', [])
         var email = this.formdata.log_email;
         var password = this.formdata.password;
         console.log(email + " " + password);
-        $http.post('http://localhost:3000/login', {
+        $state.current.params.username=email;
+        console.log($state.current.params.username)
+        $http.post('http://dmartelly.com:3000/login', {
           email: this.formdata.log_email,
-          password: this.formdata.log_pass
-        })
-        $state.go('page2');
+          password: this.formdata.password
+     }).then(res => res.data.success ? $state.go('page2',email) : console.log(res.data.success))
+     //    $state.go('page2',{username:email});
       }
     }
   ])

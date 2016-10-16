@@ -78,7 +78,7 @@ module.exports.removeUserByID = function (id, callback) {
  */
 module.exports.comparePassword = function (passwordToCheck, userHash, callback) {
     bcrypt.compare(passwordToCheck, userHash, function (err, result) {
-        if (err) throw err;
+     //    if (err) throw err;
         callback(null, result);
     });
 };
