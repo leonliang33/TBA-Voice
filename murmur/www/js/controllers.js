@@ -37,7 +37,7 @@ angular.module('app.controllers', [])
                                      snd.play();
                                      document.getElementById('audio').innerHTML =
                                      "<audio controls='controls' autobuffer='autobuffer' autoplay='autoplay'> <source src='data:audio/mp3;base64,'"+res.data+"'/> </audio>"
-                                     console.log("<audio controls='controls' autobuffer='autobuffer' autoplay='autoplay'> <source src='data:audio/mp3;base64,'"+res.data+"'/> </audio>");
+                                   //   console.log("<audio controls='controls' autobuffer='autobuffer' autoplay='autoplay'> <source type='audio/mp3' src='data:audio/mp3;base64,'"+res.data+"'/> </audio>");
                                 });
                     });
             }
